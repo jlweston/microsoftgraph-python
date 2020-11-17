@@ -24,6 +24,7 @@ class Client(object):
         self.account_type = account_type
 
         self.base_url = self.RESOURCE + self.api_version + '/'
+        self.beta_base_url = self.RESOURCE  'beta/'
         self.token = None
         self.office365 = office365
         self.office365_token = None
@@ -579,6 +580,30 @@ class Client(object):
     def excel_update_range(self, item_id, worksheets_id, **kwargs):
         url = "https://graph.microsoft.com/beta/me/drive/items/{0}/workbook/worksheets/{1}/range(address='A1:B2')".format(item_id, quote_plus(worksheets_id))
         return self._patch(url, **kwargs)
+
+    # Presence (beta)
+    @token_required
+    def get_me_presence(self):
+        """Get the presence data of the current user. Includes availability and current activity. This operation requires the Presence.Read permission.
+
+        Returns:
+            A dict.
+
+        """
+        return self._get(self.beta_base_url + 'me/presence')
+        
+    @token_required
+    def get_user_presence(self, user_id):
+        """Get the presence data of the specified user. Includes availability and current activity. This operation requires the Presence.Read.All permission.
+
+        Args:
+            user_id: The user ID whose presence will be queried (required)
+
+        Returns:
+            A dict.
+
+        """
+        return self._get(self.beta_base_url + 'users/' + user_id + '/presence')
 
     def _get(self, url, **kwargs):
         return self._request('GET', url, **kwargs)
