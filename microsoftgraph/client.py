@@ -24,7 +24,7 @@ class Client(object):
         self.account_type = account_type
 
         self.base_url = self.RESOURCE + self.api_version + '/'
-        self.beta_base_url = self.RESOURCE  'beta/'
+        self.beta_base_url = self.RESOURCE + 'beta/'
         self.token = None
         self.office365 = office365
         self.office365_token = None
